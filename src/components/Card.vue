@@ -6,7 +6,7 @@ import Trucate from '../utils/Trucate';
 const prop=defineProps({
   Note:Object
 })
-console.log(prop.Note)
+// console.log(prop.Note)
 
 const emit=defineEmits(['onDelete','onEdit','TitleClick'])
 const fireDelete=()=>{
