@@ -1,7 +1,10 @@
-<script setup></script>
+<script setup>
+const year=(new Date).getFullYear()
+
+</script>
 <template>
     <div id="footer">
-        Copy right by © <a href="https://www.dinseangmeng.xyz" target="_blank">DINSEANGMENG</a>
+        © Copy right {{year}} By  <a href="https://www.dinseangmeng.xyz" target="_blank">DINSEANGMENG</a>
     </div>
 </template>
 
