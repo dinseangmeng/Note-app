@@ -30,7 +30,7 @@ const close=()=>{
 
             </div>
             <p class="date">{{Note.date}}</p>
-            <p class="infor">{{Note.description}}</p>
+            <textarea class="infor" :value="Note.description"></textarea>
         </div>
     </div>
 </template>
@@ -51,6 +51,7 @@ const close=()=>{
         color: black;
         border: none;
         outline: none  ;
+        z-index: 9999;
         background-color: transparent;
         cursor: pointer;
         svg{
@@ -64,14 +65,15 @@ const close=()=>{
         }
     }
     #container{
-        width: 80%;
+        width: max-content;
         background-color: #d5bdaf;
         // opacity: 1 !important;
         position: absolute;
         z-index: 1000;
-        top: 50%;
+        padding: .7rem;
+        top: 0;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%,5%);
         .Header{
             display: flex;
             justify-content: space-between;
@@ -94,8 +96,34 @@ const close=()=>{
                 }
             }
         }
+        .infor{
+            font-family: 'Sono', sans-serif;
+            
+        }
+        textarea{
+            width: 80vw;
+            height:  40vh;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            // resize: vertical;
+            &::-webkit-scrollbar {
+                width: 5px;
+                
+                
+            }
+            &::-webkit-scrollbar-track{
+                background: black;
+                border-radius: 999px;
+            }
+            &::-webkit-scrollbar-thumb{
+                background: #d6ccc2;
+                border-radius: 999px;
+            }
+        }
         .date{
             font-size: .7rem;
+            margin:  .3rem 0;
         }
     }
 }
