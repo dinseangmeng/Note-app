@@ -32,9 +32,7 @@ const deleting=(id)=>{
 
     <div  v-for="note in $store.state.Notes" :key="note.id">
       <Card v-if="!note.isEditing"
-      :Title="note.title" 
-      :Description="note.description"
-      :CreateDate="note.date"
+      :Note="note"
       @TitleClick="TitleClicked(note.id)"
        @onDelete="deleting(note.id)"
        @onEdit="$store.commit('Toggle',note.id)"
@@ -43,6 +41,7 @@ const deleting=(id)=>{
       <EditForm v-else 
       :Title="note.title" 
       :Description="note.description"
+      :COLOR="note.color"
       
       LABEL="Save"
       :id="note.id"
@@ -69,6 +68,8 @@ main{
   justify-content: center;
   gap: .7rem;
   position: relative;
+  background-color: #edede9;
+  margin-bottom: 1rem;
 }
 button{
   padding: .5rem;

@@ -4,19 +4,9 @@ import Trucate from '../utils/Trucate';
 /* add icons to the library */
 
 const prop=defineProps({
-  Title:{
-    type:String,
-    default:"Title"
-  },
-  CreateDate:{
-    type:String,
-    default:DateNow()
-  },
-  Description:{
-    type:String,
-    default:'Description'
-  }
+  Note:Object
 })
+console.log(prop.Note)
 
 const emit=defineEmits(['onDelete','onEdit','TitleClick'])
 const fireDelete=()=>{
@@ -31,9 +21,9 @@ const TitleOnClick=()=>{
 </script>
 <template>
   
-  <div id="container">
+  <div id="container" :style="{ '--Conatiner-Color':Note.color}">
     <div class="header">
-      <h2 class="title" @click="TitleOnClick">{{Title}}</h2>
+      <h2 class="title" @click="TitleOnClick">{{Note.title}}</h2>
       <div class="Tool">
         <div class="delete" @click="fireDelete">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
@@ -48,8 +38,8 @@ const TitleOnClick=()=>{
         </div>
       </div>
     </div>
-    <p class="date">{{CreateDate}}</p>
-    <p class="infor">{{Trucate(Description,80,'...')}}</p>
+    <p class="date">{{Note.date}}</p>
+    <p class="infor">{{Trucate(Note.description,80,'...')}}</p>
   </div>
   
 </template>
@@ -60,6 +50,7 @@ const TitleOnClick=()=>{
   width: 300px;
   flex-shrink: 1;
   background-color: #d5bdaf;
+  box-shadow:0 5px 0px var(--Conatiner-Color) ;
   font-family: 'Sono', sans-serif;
   .date{
     font-size: .7rem;

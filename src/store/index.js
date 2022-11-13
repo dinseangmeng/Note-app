@@ -6,26 +6,29 @@ const store = createStore({
   state :{
     Adding:false,
     Notes:localStorage.getItem('Noted')!=null?JSON.parse(localStorage.getItem('Noted')):[
-      // {
-      //   id:'1',
-      //   isEditing:false,
-      //   title:'Math',
-      //   description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type ",
-      //   date:DateNow()
-      // },   
-      //    {
-      //   id:'2',
-      //   isEditing:false,
-      //   title:'Math',
-      //   description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type ",
-      //   date:DateNow()
-      // },      {
-      //   id:'3',
-      //   isEditing:false,
-      //   title:'Math',
-      //   description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type ",
-      //   date:DateNow()
-      // }
+      {
+        id:'1',
+        isEditing:false,
+        title:'Math',
+        description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type ",
+        date:DateNow(),
+        color:'#000000'
+      },   
+         {
+        id:'2',
+        isEditing:false,
+        title:'Math',
+        description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type ",
+        date:DateNow(),
+        color:'#d6ccc2'
+      },      {
+        id:'3',
+        isEditing:false,
+        title:'Math',
+        description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type ",
+        date:DateNow(),
+        color:'#d6ccc2'
+      }
     ]
   },
   mutations: {
@@ -60,6 +63,7 @@ const store = createStore({
         if(item.id==note.id){
           item.title=note.title;
           item.description=note.description;
+          item.color=note.color;
           return item
         }
         return item;

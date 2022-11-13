@@ -1,6 +1,7 @@
 <script setup>
 import {ref,computed }from 'vue'
 import store  from '../store/index';
+
 const prop=defineProps({
     LABEL:{
         type:String,
@@ -18,13 +19,19 @@ const prop=defineProps({
         type:String,
         default:''
     },
+    COLOR:{
+        type:String,
+        default:'#000000'
+    }
+    ,
     adding:{
         type:Boolean,
         default:false
-
+        
     }
     
 })
+const ColorTheme=ref(prop.COLOR)
 // =prop.Title;
 // console.log(document.querySelector('.INPUTTITLE'))
 const TitleValue=ref(prop.Title)
@@ -32,14 +39,17 @@ const TitleValue=ref(prop.Title)
 const DESCRIPTION=ref(prop.Description)
 const SaveEdit= (e)=>{
     e.preventDefault();
-    const note={
-        id:prop.id,
-        title:TitleValue.value,
-        description:DESCRIPTION.value
+    if (DESCRIPTION.value!='' || TitleValue.value!=''){
+        const note={
+            id:prop.id,
+            title:TitleValue.value,
+            description:DESCRIPTION.value,
+            color:ColorTheme
+        }
+        store.commit('Update', note )
+        //  const note
+        store.commit('Toggle')
     }
-    store.commit('Update', note )
-    //  const note
-    store.commit('Toggle')
 }
 const cancelEdit=(e)=>{
     e.preventDefault;
@@ -49,39 +59,47 @@ const cancelAdd=(e)=>{
     e.preventDefault
     store.state.Adding=!store.state.Adding
 }
-const SaveAdd=()=>{
+const SaveAdd=(e)=>{
+    
+    e.preventDefault
+    
     const note={
         title:TitleValue.value,
-        description:DESCRIPTION.value
+        description:DESCRIPTION.value,
+        color:ColorTheme
     }
     store.commit('addNote', note )
     //  const note
     store.state.Adding=!store.state.Adding
+    
 }
 </script>
 
 <template>
-    <form v-if="!adding">
-        <input type="text" placeholder="Title"  v-model="TitleValue" >
-        <textarea placeholder="Desciption"  v-model="DESCRIPTION"></textarea>
+    <form v-if="!adding" @submit="SaveEdit">
+        <input type="text" placeholder="Title"  v-model="TitleValue" pattern=".*\S+.*" required >
+        <textarea placeholder="Desciption"  v-model="DESCRIPTION" pattern=".*\S+.*" required></textarea>
         <div>
             <input @click="cancelEdit" 
             type="submit" class="cancel" value="Cancel">
-            <input @click=" SaveEdit" 
+            <input 
             type="submit" :value="LABEL">
             
         </div>
+        <input type=color v-model="ColorTheme" >
     </form>
-    <form v-if="adding">
-        <input type="text" placeholder="Title"  v-model="TitleValue" >
-        <textarea placeholder="Desciption"  v-model="DESCRIPTION"></textarea>
+    <form v-if="adding" @submit=" SaveAdd">
+        <input type="text" placeholder="Title"  v-model="TitleValue" pattern=".*\S+.*" required title="Title can't be empty">
+        <textarea placeholder="Desciption"  v-model="DESCRIPTION" pattern=".*\S+.*" required title="Description can't be empty"></textarea>
+   
         <div>
             <input @click="cancelAdd" 
             type="submit" class="cancel" value="Cancel">
-            <input @click=" SaveAdd" 
+            <input  
             type="submit" :value="LABEL">
             
         </div>
+        <input type=color v-model="ColorTheme" >
     </form>
 </template>
 
@@ -95,6 +113,21 @@ form{
     background-color: #d5bdaf;
     border-radius: 3px;
     padding: .5rem;
+    position: relative;
+    input[type="color"] {
+        appearance: none;
+        border: none;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    input[type="color"]::-webkit-color-swatch {
+        border: none;
+    }
     div{
         display: flex;
         justify-content: space-between;
@@ -118,6 +151,10 @@ form{
         .cancel{
             background-color: rgb(250, 42, 42) !important;
         }
+    }
+    input[type='color']{
+        width: 100%;
+        height: 10px;
     }
     input[type='text']{
         width: 100%;

@@ -8,8 +8,9 @@
 <style lang="scss" scoped>
     #footer{
         width: 100%;
-        position: absolute;
+        position: fixed;
         bottom: 0;
+        left: 0;
         text-align: center;
         background-color: #d6ccc2;
         font-family: 'Sono', sans-serif;
