@@ -30,7 +30,7 @@ const close=()=>{
 
             </div>
             <p class="date">{{Note.date}}</p>
-            <textarea class="infor" :value="Note.description"></textarea>
+            <textarea class="infor" readonly :value="Note.description"></textarea>
         </div>
     </div>
 </template>
