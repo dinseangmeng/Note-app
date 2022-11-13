@@ -61,7 +61,7 @@ const store = createStore({
       localStorage.setItem('Noted',JSON.stringify(state.Notes))
     },
     Update(state,note){
-      console.log(note)
+      // console.log(note)
       state.Notes=state.Notes.filter((item)=>{
         if(item.id==note.id){
           item.title=note.title;
@@ -79,7 +79,6 @@ const store = createStore({
   },
   getters:{
     getNote:(state)=>(id)=>{
-
       const  note= state.Notes.find((note)=>note.id==id)
       return JSON.parse(JSON.stringify(note))
        
