@@ -30,7 +30,7 @@ const passValue=async (file)=> {
         store.state.Notes=json;
         localStorage.setItem('Noted',JSON.stringify(store.state.Notes))
         allowInput.value=!allowInput.value;
-
+        filename.value=''
 
 }
 
@@ -39,7 +39,7 @@ const Save=()=>{
     const link= URL.createObjectURL(blob)
     var element = document.createElement('a');
     element.setAttribute('href',link);
-    element.setAttribute('download', 'Dinseangmeng_Noteapp.json');
+    element.setAttribute('download', 'Dinseangmeng_Noteapp.MENG');
 
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -47,6 +47,7 @@ const Save=()=>{
     element.click();
     URL.revokeObjectURL(link)
     document.body.removeChild(element);
+    isOpen.value=false
 }
 </script>
 <template>
@@ -78,7 +79,7 @@ const Save=()=>{
                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                     </svg>
                 </div>
-                <input type="file" ref="file" accept=".json"  @change="extractName(file.value)" id="inputfile">
+                <input type="file" ref="file" accept=".MENG"  @change="extractName(file.value)" id="inputfile">
                 <label for="inputfile" >Upload Images
                     <br>
                     <p >{{filename}}</p>
