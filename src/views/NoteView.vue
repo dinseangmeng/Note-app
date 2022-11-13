@@ -69,7 +69,7 @@ main{
   gap: .7rem;
   position: relative;
   background-color: #edede9;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
 }
 button{
   padding: .5rem;

@@ -105,7 +105,7 @@ const SaveAdd=(e)=>{
 
 <style lang="scss" scoped>
 form{
-    width: 300px;
+    width: max-content;
     font-family: 'Sono', sans-serif;
     display: flex;
     flex-direction: column;
@@ -130,12 +130,14 @@ form{
     }
     div{
         display: flex;
-        justify-content: space-between;
-        flex-basis: 100%;
+        height: max-content;
+        justify-content: center;
+        // flex-basis: 100%;
         gap: .5rem;
         input[type='submit']{
             font-family: 'Sono', sans-serif;
             flex-basis: 50%;
+            height: max-content;
             padding: .5rem;
             border: none;
             outline: none;
@@ -179,7 +181,7 @@ form{
         font-family: 'Sono', sans-serif;
         outline: none;
         padding: .5rem;
-        resize:vertical ;
+        // resize:vertical ;
         &::placeholder{
             font-family: 'Sono', sans-serif;
             color: black;
