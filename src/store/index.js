@@ -39,12 +39,15 @@ const store = createStore({
       localStorage.setItem('Noted',JSON.stringify(state.Notes))
     },
     DeleteNote(state,id){
-      state.Notes=state.Notes.filter((note)=>{
-        if(note.id!=id){
-          return note
-        }
-      })
-      localStorage.setItem('Noted',JSON.stringify(state.Notes))
+      if(confirm("Are you sure?")){
+        state.Notes=state.Notes.filter((note)=>{
+          if(note.id!=id){
+            return note
+          }
+        })
+        localStorage.setItem('Noted',JSON.stringify(state.Notes))
+
+      }
     },
     Toggle(state,id){
       state.Notes=state.Notes.filter((note)=>{
