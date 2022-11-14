@@ -80,7 +80,7 @@ const Save=()=>{
                     </svg>
                 </div>
                 <input type="file" ref="file" accept=".MENG"  @change="extractName(file.value)" id="inputfile">
-                <label for="inputfile" >Upload Images
+                <label for="inputfile" >Upload File
                     <br>
                     <p >{{filename}}</p>
                 </label>
