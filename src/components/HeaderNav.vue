@@ -1,18 +1,25 @@
 <script setup>
 import {ref} from 'vue'
-
+import { v4 as uuidv4 } from 'uuid';
 import store from '../store/index'
 const file=ref(null)
 
 const isOpen=ref(false)
 const allowInput=ref(false)
-const toggleInput=()=>{
+const isImport=ref(null)
+const toggleInput=(someValue)=>{
     allowInput.value=!allowInput.value
     isOpen.value=false
+    isImport.value=someValue
 }
 var filename=ref(null)
 
-
+const Close=()=>{
+    allowInput.value=false
+    isOpen.value=false
+    isImport.value=false
+    filename.value=''
+}
 const extractName=(fullPath)=>{
     if (fullPath) {
     var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
@@ -25,9 +32,16 @@ const extractName=(fullPath)=>{
 }
 const passValue=async (file)=> {
     
-        const json = JSON.parse(await file.files[0].text());
+        var json = JSON.parse(await file.files[0].text());
         // console.log("json", json);
-        store.state.Notes=json;
+
+        json=json.filter((item)=>{
+            item.id=uuidv4();
+            return item;
+        })
+        if(isImport.value){
+            store.state.Notes=[...store.state.Notes,...json];
+        }else{store.state.Notes=json}
         localStorage.setItem('Noted',JSON.stringify(store.state.Notes))
         allowInput.value=!allowInput.value;
         filename.value=''
@@ -61,10 +75,11 @@ const Save=()=>{
             <div id="content">
                 <router-link class="link" :to="{name:'home'}" >Home</router-link>
                 <router-link class="link" :to="{name:'about'}" >About</router-link>
-                <button class="fileToggle" > <p @click="isOpen=!isOpen">File</p> 
+                <button class="fileToggle" > <p @click="isOpen=!isOpen" >File</p> 
                     <div class="data_toggle" v-if="isOpen">
                         <button @click="Save">Save</button>
-                        <button @click="toggleInput">Open</button>
+                        <button @click="toggleInput(true)" title="Add more note from file on your file">Import</button>
+                        <button @click="toggleInput(false)" title="Overwrite all your note with note in file">Open</button>
                     </div>
                 </button>
             </div>
@@ -74,7 +89,7 @@ const Save=()=>{
             <div class="getInput">
                 <div >
                     <h1>Input json file</h1>
-                    <svg @click="allowInput=!allowInput" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                    <svg @click="Close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
                         <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                     </svg>

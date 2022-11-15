@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import DateNow from '../utils/DataNow'
-import uniqid from 'uniqid';
+import { v4 as uuidv4 } from 'uuid';
 // Create a new store instance.
 const store = createStore({
   state :{
@@ -33,7 +33,7 @@ const store = createStore({
   },
   mutations: {
     addNote(state,Note){
-      Note.id=uniqid();
+      Note.id=uuidv4();
       Note.date=DateNow();
       state.Notes=[...state.Notes,Note]
       localStorage.setItem('Noted',JSON.stringify(state.Notes))
