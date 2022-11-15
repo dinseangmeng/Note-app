@@ -8,7 +8,7 @@ const prop=defineProps({
 })
 // console.log(prop.Note)
 
-const emit=defineEmits(['onDelete','onEdit','TitleClick'])
+const emit=defineEmits(['onDelete','onEdit','TitleClick','download'])
 const fireDelete=()=>{
   emit('onDelete');
 }
@@ -18,6 +18,9 @@ const fireEdit=()=>{
 const TitleOnClick=()=>{
   emit('TitleClick');
 }
+const downloadOnClick=()=>{
+  emit('download');
+}
 </script>
 <template>
   
@@ -25,6 +28,12 @@ const TitleOnClick=()=>{
     <div class="header">
       <h2 class="title" @click="TitleOnClick">{{Note.title}}</h2>
       <div class="Tool">
+        <div class="download" @click="downloadOnClick">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+          </svg>
+        </div>
         <div class="delete" @click="fireDelete">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -72,6 +81,10 @@ const TitleOnClick=()=>{
         color: red;
         cursor: pointer;
         
+      }
+      .download{
+        color: rgb(44, 142, 228);
+        cursor: pointer;
       }
       .edit{
         color: green;

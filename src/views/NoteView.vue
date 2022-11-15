@@ -21,6 +21,22 @@ const deleting=(id)=>{
   store.commit('DeleteNote',id)
  
 }
+const Download=(id)=>{
+  const NOTE=store.getters.getNote(id)
+  const blob=new Blob([JSON.stringify(NOTE)],{type:'application/json'}   )
+    const link= URL.createObjectURL(blob)
+    var element = document.createElement('a');
+    element.setAttribute('href',link);
+    element.setAttribute('download', `${NOTE.id}.MENG`);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+    URL.revokeObjectURL(link)
+    document.body.removeChild(element);
+
+}
 </script>
  
 <template>
@@ -36,6 +52,7 @@ const deleting=(id)=>{
       @TitleClick="TitleClicked(note.id)"
        @onDelete="deleting(note.id)"
        @onEdit="$store.commit('Toggle',note.id)"
+       @download="Download(note.id)"
        />
        
       <EditForm v-else 

@@ -7,6 +7,7 @@ const file=ref(null)
 const isOpen=ref(false)
 const allowInput=ref(false)
 const isImport=ref(null)
+const isInput=ref(false)
 const toggleInput=(someValue)=>{
     allowInput.value=!allowInput.value
     isOpen.value=false
@@ -20,49 +21,65 @@ const Close=()=>{
     isImport.value=false
     filename.value=''
 }
+
+
+
 const extractName=(fullPath)=>{
     if (fullPath) {
-    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-    filename.value = fullPath.substring(startIndex);
-    if (filename.value.indexOf('\\') === 0 || filename.value.indexOf('/') === 0) {
-        filename.value = filename.value.substring(1);
+        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        filename.value = fullPath.substring(startIndex);
+        if (filename.value.indexOf('\\') === 0 || filename.value.indexOf('/') === 0) {
+            filename.value = filename.value.substring(1);
+            isInput.value=true
+        }
+        
     }
-    
-}
 }
 const passValue=async (file)=> {
-    
+    if(isInput.value){
+        
         var json = JSON.parse(await file.files[0].text());
-        // console.log("json", json);
-
-        json=json.filter((item)=>{
-            item.id=uuidv4();
-            return item;
-        })
-        if(isImport.value){
-            store.state.Notes=[...store.state.Notes,...json];
-        }else{store.state.Notes=json}
-        localStorage.setItem('Noted',JSON.stringify(store.state.Notes))
-        allowInput.value=!allowInput.value;
-        filename.value=''
-
-}
-
-const Save=()=>{
-    const blob=new Blob([JSON.stringify(store.state.Notes)],{type:'application/json'}   )
-    const link= URL.createObjectURL(blob)
-    var element = document.createElement('a');
-    element.setAttribute('href',link);
-    element.setAttribute('download', 'Dinseangmeng_Noteapp.MENG');
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-    URL.revokeObjectURL(link)
-    document.body.removeChild(element);
-    isOpen.value=false
-}
+        // console.log(...json)
+        // console.dir(  Object.keys(json).length);
+        // console.log(json.length)
+        // for(let test of json){
+            //     console.log(test)
+            // }
+            try{
+                json=json.filter((item)=>{
+                    item.id=uuidv4();
+                    return item;
+                })
+                if(isImport.value){
+                    store.state.Notes=[...store.state.Notes,...json];
+                }else{store.state.Notes=json}
+            }catch(err){
+                json.id=uuidv4();
+                store.state.Notes=[...store.state.Notes,json];
+                
+            }
+            localStorage.setItem('Noted',JSON.stringify(store.state.Notes))
+            allowInput.value=!allowInput.value;
+            filename.value=''
+        }
+        
+    }
+    
+    const Save=()=>{
+        const blob=new Blob([JSON.stringify(store.state.Notes)],{type:'application/json'}   )
+        const link= URL.createObjectURL(blob)
+        var element = document.createElement('a');
+        element.setAttribute('href',link);
+        element.setAttribute('download', 'Dinseangmeng_Noteapp.MENG');
+        
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        
+        element.click();
+        URL.revokeObjectURL(link)
+        document.body.removeChild(element);
+        isOpen.value=false
+    }
 </script>
 <template>
     <header>
@@ -188,7 +205,7 @@ header{
     z-index: 99999;
     .getInput{
         display: flex;
-
+        
         flex-direction: column;
         gap: .7rem;
         align-items: center;
@@ -232,7 +249,7 @@ header{
             font-size: 1.2rem;
             border-radius: 2px;
             cursor: pointer;
-
+            
         }
     }
 }
