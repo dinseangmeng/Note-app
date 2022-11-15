@@ -94,7 +94,7 @@ const passValue=async (file)=> {
                 <router-link class="link" :to="{name:'about'}" >About</router-link>
                 <button class="fileToggle" > <p @click="isOpen=!isOpen" >File</p> 
                     <div class="data_toggle" v-if="isOpen">
-                        <button @click="Save">Save</button>
+                        <button @click="Save" title="Download All note to local for saving of sharing">Save</button>
                         <button @click="toggleInput(true)" title="Add more note from file on your file">Import</button>
                         <button @click="toggleInput(false)" title="Overwrite all your note with note in file">Open</button>
                     </div>
