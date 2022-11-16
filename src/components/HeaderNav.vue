@@ -1,13 +1,15 @@
 <script setup>
-import {ref} from 'vue'
+import {ref,onMounted} from 'vue'
 import { v4 as uuidv4 } from 'uuid';
 import store from '../store/index'
 const file=ref(null)
-
 const isOpen=ref(false)
 const allowInput=ref(false)
 const isImport=ref(null)
 const isInput=ref(false)
+const Nav=ref(null)
+
+// console.log(Nav)
 const toggleInput=(someValue)=>{
     allowInput.value=!allowInput.value
     isOpen.value=false
@@ -35,6 +37,7 @@ const extractName=(fullPath)=>{
         
     }
 }
+
 const passValue=async (file)=> {
     if(isInput.value){
         
@@ -80,10 +83,12 @@ const passValue=async (file)=> {
         document.body.removeChild(element);
         isOpen.value=false
     }
+
+
 </script>
 <template>
     <header>
-        <div id="container">
+        <div id="container" ref="Nav">
             
             <div id="Profile"><img src="../assets/images/Profile.png" alt="Profile"></div>
             
@@ -114,7 +119,7 @@ const passValue=async (file)=> {
                 <input type="file" ref="file" accept=".MENG"  @change="extractName(file.value)" id="inputfile">
                 <label for="inputfile" >Upload File
                     <br>
-                    <p >{{filename}}</p>
+                    <p >{{filename}} </p>
                 </label>
                 <input type="submit" @click="passValue(file)" value="Submit">
                 

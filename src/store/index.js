@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Create a new store instance.
 const store = createStore({
   state :{
+    Heigth:0,
     Adding:false,
     Notes:localStorage.getItem('Noted')!=null?JSON.parse(localStorage.getItem('Noted')):[
       // {

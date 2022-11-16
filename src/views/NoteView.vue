@@ -84,14 +84,18 @@ main{
   flex-wrap: wrap;
   justify-content: center;
   gap: .7rem;
-  position: relative;
+  // position: relative;
+  position:initial;
   background-color: #edede9;
   // margin-bottom: 1rem;
 }
 button{
   padding: .5rem;
   position: absolute;
-  top: .5rem;
+  top: 104px;
+  @media only screen and (max-width: 350px){
+    top: 130px;
+  }
   right: 1rem;
   background: rgb(49, 49, 250);
   border: none;
