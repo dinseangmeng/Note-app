@@ -39,12 +39,10 @@ const close=()=>{
 <style lang="scss" scoped> 
 .main{
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     background-color: #edede96f;
     font-family: 'Sono', sans-serif;
-    
-
-    position:absolute;
+    position:fixed;
     top: 0;
     left: 0;
     z-index: 10000000;
