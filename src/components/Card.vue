@@ -26,7 +26,7 @@ const downloadOnClick=()=>{
   
   <div id="container" :style="{ '--Conatiner-Color':Note.color}">
     <div class="header">
-      <h2 class="title" @click="TitleOnClick">{{Note.title}}</h2>
+      <h2 class="title" @click="TitleOnClick">{{Trucate(Note.title,20,'...')}}</h2>
       <div class="Tool">
         <div class="download" @click="downloadOnClick" title="Download only this note for  sharing or saving">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">

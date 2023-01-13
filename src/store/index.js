@@ -36,7 +36,7 @@ const store = createStore({
     addNote(state,Note){
       Note.id=uuidv4();
       Note.date=DateNow();
-      state.Notes=[...state.Notes,Note]
+      state.Notes=[Note,...state.Notes]
       localStorage.setItem('Noted',JSON.stringify(state.Notes))
     },
     DeleteNote(state,id){
