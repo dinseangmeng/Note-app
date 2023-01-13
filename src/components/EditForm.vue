@@ -21,7 +21,7 @@ const prop=defineProps({
     },
     COLOR:{
         type:String,
-        default:'#000000'
+        default:'#00000'
     }
     ,
     adding:{
@@ -31,7 +31,7 @@ const prop=defineProps({
     }
     
 })
-const ColorTheme=ref(prop.COLOR)
+const ColorTheme=ref(prop.COLOR )
 // =prop.Title;
 // console.log(document.querySelector('.INPUTTITLE'))
 const TitleValue=ref(prop.Title)
