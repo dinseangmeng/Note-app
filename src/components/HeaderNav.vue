@@ -82,7 +82,7 @@ const passValue=async (file)=> {
         return 0
     }
     if(isInput.value){
-        console.log(file)
+        // console.log(file)
         
         var json = JSON.parse(await file.text());
             try{
