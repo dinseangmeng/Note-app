@@ -91,11 +91,11 @@ const passValue=async (file)=> {
                     return item;
                 })
    
-                    store.state.Notes=[...store.state.Notes,...json];
+                    store.state.Notes=[...json,...store.state.Notes];
         
             }catch(err){
                 json.id=uuidv4();
-                store.state.Notes=[...store.state.Notes,json];
+                store.state.Notes=[json,...store.state.Notes];
                 
             }
             localStorage.setItem('Noted',JSON.stringify(store.state.Notes))
