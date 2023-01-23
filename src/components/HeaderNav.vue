@@ -1,61 +1,98 @@
 <script setup>
-import {ref,onMounted} from 'vue'
+import {useRoute} from 'vue-router'
+import {ref,onMounted,computed} from 'vue'
 import { v4 as uuidv4 } from 'uuid';
 import store from '../store/index'
 const file=ref(null)
+const actuallFile=ref(null)
 const isOpen=ref(false)
 const allowInput=ref(false)
-const isImport=ref(null)
+
 const isInput=ref(false)
 const Nav=ref(null)
-
+const isHomePage=computed(()=>{
+    return useRoute().path==='/'?true:false;
+})
 // console.log(Nav)
-const toggleInput=(someValue)=>{
+const toggleInput=()=>{
     allowInput.value=!allowInput.value
     isOpen.value=false
-    isImport.value=someValue
 }
 var filename=ref(null)
 
 const Close=()=>{
     allowInput.value=false
     isOpen.value=false
-    isImport.value=false
-    filename.value=''
+    actuallFile.value=null
+    filename.value=null
 }
 
+    // console.log(is)
+    // console.log(isHomePage.value)
+    document.addEventListener('dragover',(e)=>{
+        e.preventDefault();
+            e.stopPropagation();
+        if(isHomePage.value){
 
 
-const extractName=(fullPath)=>{
-    if (fullPath) {
-        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-        filename.value = fullPath.substring(startIndex);
-        if (filename.value.indexOf('\\') === 0 || filename.value.indexOf('/') === 0) {
-            filename.value = filename.value.substring(1);
+            allowInput.value=true;
+        }
+        // alert("i")
+    })
+    document.addEventListener('drop',(e)=>{
+        e.preventDefault();
+            e.stopPropagation();
+        if(isHomePage.value){
+            filename.value=e.dataTransfer.files[0].name
+            // file.value=e.dataTransfer.files
+            actuallFile.value=e.dataTransfer.files[0]
+            // console.log(e.dataTransfer.files[0])
             isInput.value=true
         }
-        
+    
+    })
+    document.addEventListener('paste',(e)=>{
+        e.preventDefault();
+            e.stopPropagation();
+        if(isHomePage.value){
+            filename.value=e.clipboardData.files[0].name
+            // file.value=e.dataTransfer.files
+            actuallFile.value=e.clipboardData.files[0]
+            // console.log(e.dataTransfer.files[0])
+            isInput.value=true
+            allowInput.value=true;
+        }
+    
+    })
+
+
+
+const isAllowFile=(file)=>{
+    if(file){
+        const arr= file.name.split('.')
+        if(arr[arr.length-1]=='MENG') return true
     }
+       return false
 }
 
 const passValue=async (file)=> {
+    if(!isAllowFile(file))  {
+        allowInput.value=!allowInput.value;
+        filename.value=''
+        return 0
+    }
     if(isInput.value){
+        console.log(file)
         
-        var json = JSON.parse(await file.files[0].text());
-        // console.log(...json)
-        // console.dir(  Object.keys(json).length);
-        // console.log(json.length)
-        // for(let test of json){
-            //     console.log(test)
-            // }
+        var json = JSON.parse(await file.text());
             try{
                 json=json.filter((item)=>{
                     item.id=uuidv4();
                     return item;
                 })
-                if(isImport.value){
+   
                     store.state.Notes=[...store.state.Notes,...json];
-                }else{store.state.Notes=json}
+        
             }catch(err){
                 json.id=uuidv4();
                 store.state.Notes=[...store.state.Notes,json];
@@ -68,6 +105,12 @@ const passValue=async (file)=> {
         
     }
     
+    const getContent= ()=>{
+        filename.value=file.value.files[0].name;
+        actuallFile.value=file.value.files[0]
+        isInput.value=true;
+    }
+
     const Save=()=>{
         const blob=new Blob([JSON.stringify(store.state.Notes)],{type:'application/json'}   )
         const link= URL.createObjectURL(blob)
@@ -77,7 +120,6 @@ const passValue=async (file)=> {
         
         element.style.display = 'none';
         document.body.appendChild(element);
-        
         element.click();
         URL.revokeObjectURL(link)
         document.body.removeChild(element);
@@ -91,23 +133,20 @@ const passValue=async (file)=> {
         <div id="container" ref="Nav">
             
             <div id="Profile"><img src="../assets/images/Profile.png" alt="Profile"></div>
-            
-            
-            
             <div id="content">
                 <router-link class="link" :to="{name:'home'}" >Home</router-link>
                 <router-link class="link" :to="{name:'about'}" >About</router-link>
-                <button class="fileToggle" > <p @click="isOpen=!isOpen" >File</p> 
+                <button class="fileToggle" v-if="isHomePage"> <p @click="isOpen=!isOpen" >File</p> 
                     <div class="data_toggle" v-if="isOpen">
                         <button @click="Save" title="Download All note to local for saving of sharing">Save</button>
                         <button @click="toggleInput(true)" title="Add more note from file on your file">Import</button>
-                        <button @click="toggleInput(false)" title="Overwrite all your note with note in file">Open</button>
+                        <!-- <button @click="toggleInput(false)" title="Overwrite all your note with note in file">Open</button> -->
                     </div>
                 </button>
             </div>
             
         </div>
-        <div v-if="allowInput" id="getInput"> 
+        <div v-if="allowInput && isHomePage" id="getInput"> 
             <div class="getInput">
                 <div >
                     <h1>Input json file</h1>
@@ -116,12 +155,15 @@ const passValue=async (file)=> {
                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                     </svg>
                 </div>
-                <input type="file" ref="file" accept=".MENG"  @change="extractName(file.value)" id="inputfile">
-                <label for="inputfile" >Upload File
+                <input type="file" ref="file" accept=".MENG"  @change="getContent()" id="inputfile">
+                <label for="inputfile" :style="! isAllowFile(actuallFile) && filename!=null ?{'border':'2px solid red'}:''">Upload File
                     <br>
-                    <p >{{filename}} </p>
+                    <p v-if="filename!=null" :style="! isAllowFile(actuallFile) && filename!=null?{'color':'red'}:''" >{{isAllowFile(actuallFile) && filename!=null ? filename :"File no support"}} </p>
+                    <p v-else  >{{ filename}} </p>
+ 
                 </label>
-                <input type="submit" @click="passValue(file)" value="Submit">
+                <input  type="submit" :disabled="!isAllowFile(actuallFile) && filename!=null" :style="! isAllowFile(actuallFile)&& filename!=null?{'background-color':'red'}:''"  @click="passValue(actuallFile)" value="Submit">
+
                 
             </div>
         </div>
@@ -149,7 +191,11 @@ header{
     }
     align-items: center;
 }
-
+input[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
 #Profile img{
     width: 5rem;
     display: block;
