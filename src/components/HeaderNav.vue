@@ -75,7 +75,7 @@ const Close=()=>{
 const isAllowFile=(file)=>{
     if(file){
         const arr= file.name.split('.')
-        if(arr[arr.length-1]=='MENG') return true
+        if(arr[arr.length-1].toUpperCase()=='MENG') return true
     }
        return false
 }
