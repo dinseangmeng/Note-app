@@ -52,16 +52,21 @@ const Close=()=>{
     
     })
     document.addEventListener('paste',(e)=>{
-        e.preventDefault();
-            e.stopPropagation();
-        if(isHomePage.value){
-            filename.value=e.clipboardData.files[0].name
-            // file.value=e.dataTransfer.files
-            actuallFile.value=e.clipboardData.files[0]
-            // console.log(e.dataTransfer.files[0])
-            isInput.value=true
-            allowInput.value=true;
+        if(e.clipboardData.files.length>0){
+
+            // console.log(e)
+            e.preventDefault();
+                e.stopPropagation();
+            if(isHomePage.value){
+                filename.value=e.clipboardData.files[0].name
+                // file.value=e.dataTransfer.files
+                actuallFile.value=e.clipboardData.files[0]
+                // console.log(e.dataTransfer.files[0])
+                isInput.value=true
+                allowInput.value=true;
+            }
         }
+ 
     
     })
 
