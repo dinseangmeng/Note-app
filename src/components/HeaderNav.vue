@@ -191,10 +191,11 @@ header{
     }
     align-items: center;
 }
-input[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+input:disabled {
+    background-color: rgb(216, 216, 216) !important;
+    color: rgb(151, 151, 151) !important;
+  cursor: not-allowed !important;
+  pointer-events: all !important;
 }
 #Profile img{
     width: 5rem;
