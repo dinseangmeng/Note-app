@@ -66,6 +66,7 @@ const downloadOnClick=()=>{
   }
   .infor{
     font-size: 1rem;
+    word-break: break-all;
   }
   .header{
     display: flex;
